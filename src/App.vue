@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <p><i class="iconfont icon-wendang"></i>App Component</p>
+    <!-- <router-view></router-view> -->
+    <router-view/>
   </div>
 </template>
 
