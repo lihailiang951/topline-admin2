@@ -1,17 +1,101 @@
+
 <template>
-  <div>
-    <p>Login Component</p>
-  </div>
+   <div class="login-wrap">
+    <!-- 给组件加 class，会把这个 class 作用到组件的根元素上 -->
+    <div class="form-wrap">
+      <div class="form-head">
+        <img src="../logo_index.png" alt="黑马头条号">
+      </div>
+      <!--
+        配置校验规则
+          rules 规则对象配置到 el-form 上
+          prop 校验字段配置到 el-form-item 上
+        JavaScript 触发验证
+          给 el-form 添加 ref
+          this.$refs['ref名字'].validate(valid => {}) 触发验证
+       -->
+      <el-form
+      class="form-content"
+      >
+        <el-form-item prop='mobile'>
+          <el-input v-model="form.mobile" placeholder="手机号"></el-input>
+        </el-form-item>
+
+        <el-form-item prop='code'>
+          <!-- el-col 栅格布局,一共24列，:span 用来指定占用的大小，:offset 用来制动偏移量 -->
+          <el-col :span="14">
+          <el-input v-model="form.code" placeholder="验证码"></el-input>
+          </el-col>
+          <el-col :offset="1" :span="9">
+            <el-button>获取验证码</el-button>
+          </el-col>
+        </el-form-item>
+        <el-form-item prop='agree'>
+          <el-checkbox class='agree-checkbox' v-model='form.agree'></el-checkbox>
+          <span class="agree-text">我已阅读并同意<a href="#">用户协议</a>和<a href="#">隐私条款</a></span>
+        </el-form-item>
+        <el-form-item>
+          <el-button class="btn-login" type="primary" @click="handleLogin">登录</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+   </div>
 </template>
 
 <script>
 export default {
   name: 'AppLogin',
   data () {
-    return {}
+    return {
+      form: {
+        mobile: '',
+        code: ''
+      }
+    }
+  },
+  methods: {
+    onSubmit() {
+      console.log('submit!')
+    },
+    handleLogin () {}
   }
 }
 </script>
 
 <style lang="less" scoped>
+
+.login-wrap {
+      height: 100%;
+      background-color: #2b3e4a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    .form-head {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+      img {
+         width: 200px;
+      }
+  }
+
+  .form-wrap {
+    width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    .btn-login {
+      width: 100%;
+    }
+    span {
+      color: #ccc;
+      font-size: 20px;
+      a {
+        color:#3a8ee6;
+        text-decoration: none;
+      }
+    }
+  }
+}
 </style>
