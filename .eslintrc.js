@@ -7,6 +7,7 @@ module.exports = {
     'plugin:vue/essential',
     '@vue/standard'
   ],
+  // git remote remove 名字  ==> 删除远程仓库
 
   // 这里可以进行自定义规则配置
   // key: 规则代号
