@@ -59,10 +59,27 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-      console.log('submit!')
+    handleLogin () {
+      // console.log('handleLogin')
+      axios({
+        method: 'POST',
+        url: 'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
+        data: this.form
+      })
+        .then(res => { // >=200 && <400的状态码会进入 then 成功
+          console.log(res.data)
+          this.$message({
+            message: '登录成功',
+            type: 'success'
+          })
+          this.$router.push({
+            name: 'home'
+          })
+        })
+        .catch((e) => { // >=400的状态码会进入这里
+          this.$message.error('登录失败，手机号或验证码错误')
+        })
     },
-    handleLogin () {},
     handleSendCode () {
       const { mobile } = this.form
       axios({
