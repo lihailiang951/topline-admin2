@@ -14,16 +14,23 @@
           给 el-form 添加 ref
           this.$refs['ref名字'].validate(valid => {}) 触发验证
        -->
+       <!--
+        配置校验规则
+          rules 规则对象配置到 el-form 上
+          prop  校验字段配置到 el-form-item 上
+        JavaScript 触发验证
+          给 el-form 添加 ref
+          调用 this.$refs['ref名字'].validate(valid => {}) 触发验证
+       -->
       <el-form
-      class="form-content"
-      ref="form"
-      :mobile="form"
-      >
-        <el-form-item>
+        class="form-content"
+        ref="form"
+        :model="form"
+        :rules="rules">
+        <el-form-item prop="mobile">
           <el-input v-model="form.mobile" placeholder="手机号"></el-input>
         </el-form-item>
-
-        <el-form-item>
+        <el-form-item prop="code">
           <!-- el-col 栅格布局,一共24列，:span 用来指定占用的大小，:offset 用来制动偏移量 -->
           <el-col :span="14">
           <el-input v-model="form.code" placeholder="验证码"></el-input>
@@ -55,12 +62,34 @@ export default {
       form: {
         mobile: '',
         code: ''
+      },
+      rules: {
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          // { len: 11, message: '长度必须为11位', trigger: 'blur' },
+          { pattern: /\d{11}/, message: '请输入有效的手机号', trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          // { len: 11, message: '长度必须为6位', trigger: 'blur' },
+          { pattern: /\d{6}/, message: '请输入有效的验证码', trigger: 'blur' }
+        ]
       }
     }
   },
   methods: {
     handleLogin () {
       // console.log('handleLogin')
+      // 使用 form 组件的 validate 方法触发校验，获取检验的结果状态
+      this.$refs['form'].validate(valid => {
+        if (!valid) {
+          return
+        }
+        // 表单验证通过，提交登录请求
+        this.submitLogin()
+      })
+    },
+    submitLogin() {
       axios({
         method: 'POST',
         url: 'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
