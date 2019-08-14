@@ -69,7 +69,28 @@ export default {
         method: 'GET',
         url: `http://ttapi.research.itcast.cn/mp/v1_0/captchas/${mobile}`
       }).then(res => {
-        console.log(res.data)
+        const { data } = res.data
+        window.initGeetest({
+          // 以下配置参数来自服务端 SDK
+          gt: data.gt,
+          challenge: data.challenge,
+          offline: !data.success,
+          new_captcha: data.new_captcha,
+          product: 'bind' // 隐藏直接弹出式
+        }, function (captchaObj) {
+          captchaObj.onReady(function() {
+          // 验证码ready之后才能调用verify方法显示验证码
+            captchaObj.verify() // 弹出验证码内容框
+          }).onSuccess(function() {
+          // your code
+            console.log(captchaObj.getValidate())
+          }).onError(function() {
+          // your code
+          })
+
+          // 在这里注册 “发送验证码” 按钮的点击事件，然后验证用户是否输入手机号以及手机号是否格式是否正确
+          // captchObj.verify
+        })
       })
     }
   }
