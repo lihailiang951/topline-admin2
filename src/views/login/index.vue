@@ -16,7 +16,7 @@
        -->
        <!--
         配置校验规则
-          rules 规则对象配置到 el-form 上
+          rules 规则对象配置到 el-form 上,rules 中配置的校验字段必须和表单数据对象保持一致
           prop  校验字段配置到 el-form-item 上
         JavaScript 触发验证
           给 el-form 添加 ref
@@ -61,7 +61,8 @@ export default {
     return {
       form: {
         mobile: '',
-        code: ''
+        code: '',
+        agree: ''
       },
       rules: {
         mobile: [
@@ -73,6 +74,10 @@ export default {
           { required: true, message: '请输入验证码', trigger: 'blur' },
           // { len: 11, message: '长度必须为6位', trigger: 'blur' },
           { pattern: /\d{6}/, message: '请输入有效的验证码', trigger: 'blur' }
+        ],
+        agree: [
+          { required: true, message: '请同意用户协议' },
+          { pattern: /true/, message: '请同意用户协议' }
         ]
       }
     }
